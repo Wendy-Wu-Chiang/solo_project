@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Edit Post</title>
+</head>
+
+<body>
+    <h1>Hello {{logged_user.first_name}}!Let's edit your post!</h1>
+    <a href="/logout">Logout</a>
+    {% if messages %}
+    <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="/contents/update/{{content.id}}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="videofile">Video</label>
+            <input type="file" name="videofile" id="videofile" value="{{content.videofile.url}}" class="form-control">
+
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" value="{{content.title}}" class="form-control">
+
+            <label for="content">Description:</label>
+            <input type="text" name="content" id="content" value="{{content.content}}" class="form-control">
+
+        </div>
+        <a href="/cancle">Cancle</a>
+        <button class="btn btn-primary">Submit</button>
+    </form>
+</body>
+
+</html>

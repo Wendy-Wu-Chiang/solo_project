@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <h1>Hello {{logged_user.first_name}}</h1>
+        <a href="/logout">Logout</a>
+        <a href="/contents/new"><button>Post Your Experiences</button></a>
+        <h4>Welcome to Early Childhood Experiences Sharing spot!!</h4>
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Likes</th>
+                    <th>Views</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contents in all_contents %}
+                <tr>
+                    <td>{{contents.title}}</td>
+                    <td>{{contents.liked_by.count}}</td>
+                    <td>{{contents.viewed_by.count}}</td>
+                   
+                    {% if request.session.logged_user != contents.user_content_id %}
+                    <td><a href="/contents/{{contents.id}}">View</a> |
+                    {% else %}  
+                    <td><a href="/contents/{{contents.id}}">View</a> | 
+                    <a href="/{{contents.id}}/delete">Remove</a> |
+                    <a href="/contents/edit/{{contents.id}}">Edit</a>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</body>
+
+</html>
